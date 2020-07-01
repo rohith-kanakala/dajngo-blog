@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block title %}
+{% endblock %}
+{% block menu %}
+<nav >
+	{% if user.is_authenticated %}
+	<div class='inner'>
+						<ul>
+							<li><a href="{% url 'home' %}">Home</a></li>
+							<li><a href="{% url 'add_blog' %}">Add post</a></li>
+							<li><a href="{% url 'logout'%}">Logout</a></li>
+							<li><a href="{% url 'edit_profile'%}">edit_profile</a></li>
+							<li><a href="{% url 'my_posts'%}">my posts</a></li>
+						</ul>
+	</div>
+	{% else %}
+		<div class='inner'>
+						<ul>
+							<li><a href="{% url 'home' %}">Home</a></li>
+							<li><a href="{% url 'add_blog' %}">Add post</a></li>
+							<li><a href="{% url 'login'%}">Login</a></li>
+							<li><a href="{% url 'register' %}">Sign up </a></li>
+						</ul>
+		</div>
+	{% endif %}
+
+</nav>
+
+{% endblock %}
+
+{% block content %}
+                    <div id="main">
+						<div class="inner">
+							<header>
+								<h1>create posts</h1><br />
+                                    <a href="#"></a>
+                                </h1>
+								<p>posts by all users </p>
+							</header>
+                            {% if blogs %}
+							<section class="">
+								{% for blog in blogs %}
+								<article class="">
+									<a href="{{blog.get_absolute_url}}">
+										<h2>{{blog.name}}</h2>
+									</a>
+									<span class="">
+										{% if blog.photo %}
+										<img src="{{blog.photo.url}}" alt=""  width="300" height="300" />
+										{% else %}
+										<p>{{blog.text| truncatewords:7 }}</p>
+										{% endif %}
+									</span>
+										<div class="content">
+											<p>craeted {{blog.timestamp|timesince}} ago by {{blog.author.user.username}} <img src="{{blog.author.image.url}}" width="50" height="50"> </p>
+
+										</div>
+								</article>
+								<hr>
+								{% endfor %}
+							{% endif %}
+							</section>
+							{% if is_paginated %}
+								{% if page_obj.has_previous %}
+									<a href="?page=1">First</a>
+									<a href="?page={{page_obj.previous_page_number}}">Previous</a>
+								{% endif %}
+
+								{% for num in page_obj.paginator.page_range %}
+								{% if page_obj.number == num %}
+									<a href = "?page={{num}}">{{num}}</a>
+								{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'%}
+									 <a href = "?page={{num}}">{{num}}</a>
+								{% endif %}
+								{% endfor %}
+
+								{% if page_obj.has_next %}
+									<a href="?page={{ page_obj.next_page_number}}">Next</a>
+									<a href="?page={{ page_obj.paginator.num_pages}}">Last</a>
+								{% endif %}
+							{% endif %}
+                        </div>
+                    </div>
+{% endblock %}
+

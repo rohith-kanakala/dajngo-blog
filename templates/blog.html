@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title  %}
+{{title}}
+{% endblock %}
+{% block menu %}
+
+<nav >
+	<div class='inner'>
+						<ul>
+							<li><a href="{% url 'home' %}">Home</a></li>
+							<li><a href="{% url 'edit_blog' blog.slug %}">Edit Blog</a></li>
+							<li><a href="{% url 'my_posts' %}">my posts</a></li>
+							<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+		</div>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+<div id="main" xmlns="http://www.w3.org/1999/html">
+						<div class="inner">
+							<h1>{{blog.name}}</h1>
+							{% if blog.photo %}
+							<span class="image main"><img src="{{blog.photo.url}}" alt="{{blog.name}}" width="500" height="700"/></span>
+							{% endif %}
+                            <p>{{blog.text|linebreaks}}</p>
+							<div>
+								<pre><input type="text">{{tags}}                                                                      created on:{{blog.timestamp}}</input></pre>
+
+
+							</div>
+
+						</div>
+					</div>
+
+
+{% endblock %}
